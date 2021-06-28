@@ -3,12 +3,10 @@
 
 
 #include <iostream>
-#include <string>
 #include <iterator>
 #include <cstddef>
 #include <utility>
 #include <cmath>
-#include <vector>
 
 
 template<typename T>
