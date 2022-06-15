@@ -13,14 +13,11 @@ template<typename T>
 class Vector
 {
     private:
-
         T* items;
         size_t sz;
         size_t cap;
     
-
     private:
-
         class Iterator
         {
             using iterator_tag = std::forward_iterator_tag;
@@ -30,22 +27,17 @@ class Vector
             using reference = T&;
 
             private:
-
                 pointer ptr;
             
             public:
-
                 Iterator(pointer ptr)
                     :ptr(ptr){}
                 
-
                 reference operator*() { return *this->ptr; }
                 pointer operator->() { return this->ptr; }
 
-
                 Iterator& operator++() { ++this->ptr; return *this;}
                 Iterator operator++(int) { Iterator tmp = *this; ++this->ptr; return tmp; }
-
 
                 Iterator& operator+(difference_type n) { this->ptr += n; return *this; }
                 Iterator& operator-(difference_type n) { this->ptr -= n; return *this; }
@@ -53,11 +45,9 @@ class Vector
                 Iterator& operator+=(difference_type n) { this->ptr += n; return *this; }
                 Iterator& operator-=(difference_type n) { this->ptr -= n; return *this; }
 
-
                 friend bool operator==(const Iterator& a, const Iterator& b) { return (a.ptr == b.ptr); }
                 friend bool operator!=(const Iterator& a, const Iterator& b) { return (a.ptr != b.ptr); }
         };
-
 
         class ReverseIterator
         {
@@ -68,29 +58,23 @@ class Vector
             using reference = T&;
 
             private:
-
                 pointer ptr;
             
             public:
-
                 ReverseIterator(pointer ptr)
                     :ptr(ptr){}
                 
-
                 reference operator*() { return *this->ptr; }
                 pointer operator->() { return this->ptr; }
 
-
                 ReverseIterator& operator++() { --this->ptr; return *this;}
                 ReverseIterator operator++(int) { ReverseIterator tmp = *this; --this->ptr; return tmp; }
-
 
                 ReverseIterator& operator+(difference_type n) { this->ptr -= n; return *this; }
                 ReverseIterator& operator-(difference_type n) { this->ptr += n; return *this; }
 
                 ReverseIterator& operator+=(difference_type n) { this->ptr -= n; return *this; }
                 ReverseIterator& operator-=(difference_type n) { this->ptr += n; return *this; }
-
 
                 friend bool operator==(const ReverseIterator& a, const ReverseIterator& b) { return (a.ptr == b.ptr); }
                 friend bool operator!=(const ReverseIterator& a, const ReverseIterator& b) { return (a.ptr != b.ptr); }
@@ -105,25 +89,18 @@ class Vector
             using const_pointer = const T*;
             using const_reference = const T&;
 
-
             private:
-
                 const_pointer ptr;
             
-
             public:
-                
                 ConstIterator(const_pointer ptr)
                     :ptr(ptr){}
-                
 
                 const_reference operator*() const { return *this->ptr; }
                 const_pointer operator->() const { return this->ptr; }
 
-
                 ConstIterator& operator++() { ++this->ptr; return *this;}
                 ConstIterator operator++(int) { ConstIterator tmp = *this; ++this->ptr; return tmp; }
-
 
                 ConstIterator& operator+(difference_type n) { this->ptr += n; return *this; }
                 ConstIterator& operator-(difference_type n) { this->ptr -= n; return *this; }
@@ -131,11 +108,9 @@ class Vector
                 ConstIterator& operator+=(difference_type n) { this->ptr += n; return *this; }
                 ConstIterator& operator-=(difference_type n) { this->ptr -= n; return *this; }
 
-
                 friend bool operator==(const ConstIterator& a, const ConstIterator& b) { return (a.ptr == b.ptr); }
                 friend bool operator!=(const ConstIterator& a, const ConstIterator& b) { return (a.ptr != b.ptr); }
         };
-
 
         class ConstReverseIterator
         {
@@ -146,22 +121,17 @@ class Vector
             using const_reference = const T&;
 
             private:
-
                 const_pointer ptr;
             
             public:
-
                 ConstReverseIterator(const_pointer ptr)
                     :ptr(ptr){}
                 
-
                 const_reference operator*() const { return *this->ptr; }
                 const_pointer operator->() const { return this->ptr; }
 
-
                 ConstReverseIterator& operator++() { --this->ptr; return *this;}
                 ConstReverseIterator operator++(int) { ConstReverseIterator tmp = *this; --this->ptr; return tmp; }
-
 
                 ConstReverseIterator& operator+(difference_type n) { this->ptr -= n; return *this; }
                 ConstReverseIterator& operator-(difference_type n) { this->ptr += n; return *this; }
@@ -169,14 +139,11 @@ class Vector
                 ConstReverseIterator& operator+=(difference_type n) { this->ptr -= n; return *this; }
                 ConstReverseIterator& operator-=(difference_type n) { this->ptr += n; return *this; }
 
-
                 friend bool operator==(const ConstReverseIterator& a, const ConstReverseIterator& b) { return (a.ptr == b.ptr); }
                 friend bool operator!=(const ConstReverseIterator& a, const ConstReverseIterator& b) { return (a.ptr != b.ptr); }
         };
     
-
     private:
-
         void re_alloc(size_t new_capacity)
         {
             T* new_items = new T[new_capacity];
@@ -190,16 +157,12 @@ class Vector
             this->cap = new_capacity;
         }
 
-
     public:
-
         Vector()
             :items(new T[0]), sz(0), cap(0){}
         
-
         Vector(size_t size)
             :items(new T[size]), sz(0), cap(size){}
-        
 
         Vector(size_t size, const T& item)
             :items(new T[size]), sz(size), cap(size)
@@ -207,7 +170,6 @@ class Vector
                 for(size_t i = 0; i < this->sz; ++i)
                     this->items[i] = item;
             }
-        
 
         Vector(const Vector<T>& vec)
             :sz(vec.sz), cap(vec.cap)
@@ -218,11 +180,9 @@ class Vector
                 this->items[i] = vec[i];
         }
         
-
         Vector(Vector<T>&& rhs) noexcept
             :items(std::exchange(rhs.items, nullptr)), sz(std::exchange(rhs.sz, 0)), 
              cap(std::exchange(rhs.cap, 0)) {}
-
 
         Vector(std::initializer_list<T> list)
             :sz(0), cap(list.size() * 2)
@@ -233,9 +193,7 @@ class Vector
                 this->push_back(item);
         }
 
-
         ~Vector() { delete[] this->items; }
-
 
         Vector<T>& operator=(const Vector<T>& vec) noexcept
         {   
@@ -254,7 +212,6 @@ class Vector
             return *this; 
         }    
 
-
         Vector<T>& operator=(Vector<T>&& rhs) noexcept
         {
             if(this != &rhs)
@@ -269,10 +226,8 @@ class Vector
             return *this;
         }
         
-
         T& operator[](size_t index) { return this->items[index]; }
         T& operator[](size_t index) const { return this->items[index]; }
-
 
         T& at(size_t n)
         {
@@ -282,7 +237,6 @@ class Vector
             return *(this->items + n);
         }
 
-
         const T& at(size_t n) const
         {
             if(n < 0 || n >= this->sz)
@@ -291,10 +245,8 @@ class Vector
             return *(this->items + n);
         }
 
-
         T& front() { return *this->begin(); }
         T& back() { return *(this->end() - 1); }
-
 
         void push_back(const T& item)
         {
@@ -314,7 +266,6 @@ class Vector
             ++this->sz;
         }
 
-
         void pop_back()
         {
             if(this->sz > 0)
@@ -326,7 +277,6 @@ class Vector
                     this->re_alloc(this->cap / 2);
             }
         }
-
 
         void resize(size_t n)
         {
@@ -345,7 +295,6 @@ class Vector
             }
         }
 
-
         void resize(size_t n, const T& item)
         {
             if(n < this->sz)
@@ -363,20 +312,17 @@ class Vector
             }
         }
 
-
         void reserve(size_t n)
         {
             if(n > this->cap)
                 this->re_alloc(n);
         }
 
-
         void shrink_to_fit()
         {
             if(this->cap > this->sz)
                 this->re_alloc(this->sz);
         }
-
 
         void swap(Vector<T>& vec)
         {
@@ -385,40 +331,31 @@ class Vector
             std::swap(this->sz, vec.sz);
         }
 
-
         void clear()
         {
             while(this->sz > 0)
                 this->pop_back();
         }
 
-
         Iterator begin() { return Iterator(&this->items[0]); }
         Iterator end() { return Iterator(this->items + this->sz); }
-
 
         ReverseIterator rbegin() { return ReverseIterator(&this->items[this->sz - 1]); }
         ReverseIterator rend() { return ReverseIterator(this->items - 1); }
 
-
         ConstIterator cbegin() const { return ConstIterator(&this->items[0]); }
         ConstIterator cend() const { return ConstIterator(this->items + this->sz); }
-
 
         ConstReverseIterator crbegin() const { return ConstReverseIterator(&this->items[this->sz - 1]); }
         ConstReverseIterator crend() const { return ConstReverseIterator(this->items - 1); }
 
-
         T* data() { return this->items; }
 
-        
         size_t size() const { return this->sz; }
         size_t capacity() const { return this->cap; }
 
-
         bool empty() const { return (this->sz == 0); }
 };
-
 
 template<typename T>
 std::ostream& operator<<(std::ostream& ostr, const Vector<T>& vec)
