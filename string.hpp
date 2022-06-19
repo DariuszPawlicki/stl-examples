@@ -2,8 +2,10 @@
 #define STRING_H
 
 
+#include <iostream>
 #include <cstddef> 
 #include <cstring>
+#include <utility>
 #include <stdexcept>
 
 
@@ -40,6 +42,10 @@ class String
 
             strcpy(this->str_arr, str.str_arr);
         }
+
+        String(String&& str) noexcept : 
+            str_arr(std::exchange(str.str_arr, nullptr)),
+            size(std::exchange(str.size, 0)) {}
 
         String(size_t n, char c)
         {
@@ -80,6 +86,37 @@ class String
         String& operator+=(const char* str_arr)
         {
             this->append(str_arr);
+
+            return *this;
+        }
+
+        String& operator=(const String& str)
+        {
+            if(this != &str)
+            {
+                delete[] this->str_arr;
+                
+                this->size = str.size;
+                this->str_arr = new char[this->size + 1];
+
+                for(size_t i = 0; i < this->size; ++i)
+                    this->str_arr[i] = str[i];
+                
+            }
+
+            return *this;
+        }
+
+        String& operator=(String&& str)
+        {
+            if(this != &str)
+            {
+                delete[] this->str_arr;
+                
+                this->size = std::exchange(str.size, 0);
+                this->str_arr = std::exchange(str.str_arr, nullptr);
+                
+            }
 
             return *this;
         }
@@ -156,6 +193,13 @@ class String
             strcpy(this->str_arr + prev_str_size, str_arr);
 
             return *this;
+        }
+
+        void push_back(char c)
+        {
+            const char str_arr[] = {c};
+
+            this->append(str_arr);
         }
 
         const char* c_str() const { return this->str_arr; }
